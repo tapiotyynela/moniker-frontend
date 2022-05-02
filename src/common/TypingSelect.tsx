@@ -36,7 +36,7 @@ export const TypingSelect = ({...props}: any) => {
             <Label>{props.label}</Label>
             </div>
             <InputContainer>
-                <Input {...props}/>
+                <Input {...props} />
                 <img src={ArrowDown} style={{paddingRight: '10px'}} onClick={() => console.log("MOIKKA")}/>
             </InputContainer>
         </div>
