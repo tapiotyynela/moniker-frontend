@@ -12,6 +12,7 @@ import { Team } from "../../types/team"
 import { User } from "../../types/user"
 import Text from '../../common/Text'
 import { formatSelectOptions } from '../../utils/SelectDataFormatter'
+import { CheckAvailablePlayers } from "../../utils/CheckAvailablePlayers"
 
 const NewGame = () => {
     const [results, setResults] = useState<Option[]>([])
@@ -19,7 +20,7 @@ const NewGame = () => {
     const [teamName, setTeamName] = useState<string>('')
     const [teams, setTeams] = useState<Team[]>([])
     const [availablePlayers, setAvailablePlayers] = useState<Option[]>([])
-    const [playersOfTeams, setPlayersOfTeams] = useState<Option[]>([])
+    const [allPlayers, setAllPlayers] = useState<Option[]>([])
 
     useEffect(() => {
         getUsers()
@@ -33,7 +34,8 @@ const NewGame = () => {
     }
 
     const addPlayer = (players: Option[]) => {
-        setAvailablePlayers([...players])
+        setAllPlayers([...players])
+        setAvailablePlayers([...CheckAvailablePlayers(teams, players)])
     }
 
     const addPlayerToTeam = async (players: Option[],  name: string) => {
@@ -44,15 +46,13 @@ const NewGame = () => {
             return team
         })
         setTeams([...allTeams])
-        const filteredPlayers = availablePlayers.filter(p => !playersOfTeams.includes(p))
-        setAvailablePlayers([...filteredPlayers])
-        console.log("TEAMS", teams)
+        setAvailablePlayers([...CheckAvailablePlayers(teams, allPlayers)])
     }
 
     const renderTeams = () => {
         let teamInputs = [] 
         for(let i = 0; i < teams.length; i++) {
-            teamInputs.push(<SelectInput id={teams[i].name} onChange={(e) => addPlayerToTeam(e, teams[i].name)} placeholder="Search players..." isMulti={true} options={availablePlayers} label={`${teams[i].name} players`} />)
+            teamInputs.push(<SelectInput id={teams[i].name} onChange={(e) => addPlayerToTeam(e, teams[i].name)} placeholder="Select players" isMulti={true} options={availablePlayers} label={`${teams[i].name} players`} />)
         }
         return <div>{teamInputs.map(i => i)}</div>
     }
@@ -67,7 +67,6 @@ const NewGame = () => {
             bestPlayer: ''
         })
         setTeams(tiims)
-        console.log("TIIMIT", teams)
         setModalOpen(false)
     }
 
