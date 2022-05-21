@@ -14,11 +14,11 @@ const Label = styled.p`
     align-self: flex-start;
 `
 
-const SelectInput = ({ placeholder, isMulti, options, label, onChange, id }: SelectInputProps) => {
+const SelectInput = ({ placeholder, isMulti, options, label, onChange, id, value }: SelectInputProps) => {
     return (
         <div style={{marginBottom: '10px'}}>
             <Label>{label}</Label>
-            <Select id={id} styles={styles} placeholder={placeholder} isMulti={isMulti} options={options} onChange={e => onChange(e as Option[])}/>
+            <Select value={value} id={id} styles={styles} placeholder={placeholder} isMulti={isMulti} options={options} onChange={e => onChange(e as Option[])}/>
         </div>
     )
 }

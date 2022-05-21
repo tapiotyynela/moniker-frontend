@@ -1,5 +1,3 @@
-import { MultiValue, SingleValue } from "react-select"
-
 export type Option = {
     label: string
     value: string
@@ -10,6 +8,7 @@ export type SelectInputProps = {
     placeholder: string
     label: string
     isMulti: boolean
+    value?: Option[]
     options: Option[]
     onChange: (option: Option[]) => void
 }

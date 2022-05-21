@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react"
-import { MultiValue, SingleValue } from "react-select"
+import { useEffect, useState } from "react"
 import { getUsersBySearchWord } from "../../api/user"
 import { AuthContainer } from "../../common/AuthContainer"
 import { Button } from "../../common/Button"
@@ -9,13 +8,12 @@ import CustomModal from "../../common/Modal"
 import SelectInput from "../../common/Select"
 import { Option } from "../../types/components"
 import { Team } from "../../types/team"
-import { User } from "../../types/user"
 import Text from '../../common/Text'
-import { formatSelectOptions } from '../../utils/SelectDataFormatter'
-import { CheckAvailablePlayers } from "../../utils/CheckAvailablePlayers"
+import { FormatSelectOptions } from '../../utils/NewGameForm/SelectDataFormatter'
+import { CheckAvailablePlayers } from "../../utils/NewGameForm/CheckAvailablePlayers"
 
 const NewGame = () => {
-    const [results, setResults] = useState<Option[]>([])
+    const [options, setOptions] = useState<Option[]>([])
     const [modalOpen, setModalOpen] = useState<boolean>(false)
     const [teamName, setTeamName] = useState<string>('')
     const [teams, setTeams] = useState<Team[]>([])
@@ -30,7 +28,7 @@ const NewGame = () => {
         const results = await getUsersBySearchWord({
             word: ''
         })
-        setResults(formatSelectOptions(results.data))
+        setOptions(FormatSelectOptions(results.data))
     }
 
     const addPlayer = (players: Option[]) => {
@@ -38,21 +36,21 @@ const NewGame = () => {
         setAvailablePlayers([...CheckAvailablePlayers(teams, players)])
     }
 
-    const addPlayerToTeam = async (players: Option[],  name: string) => {
+    const addPlayerToTeam = async (players: Option[], name: string) => {
         const allTeams = teams.map(team => {
             if (team.name === name) {
-                team.players = players.map(p => p.label)
+                team.players = players.map((p) => p)
             }
             return team
         })
         setTeams([...allTeams])
-        setAvailablePlayers([...CheckAvailablePlayers(teams, allPlayers)])
+        setAvailablePlayers([...CheckAvailablePlayers([...allTeams], allPlayers)])
     }
 
     const renderTeams = () => {
         let teamInputs = [] 
         for(let i = 0; i < teams.length; i++) {
-            teamInputs.push(<SelectInput id={teams[i].name} onChange={(e) => addPlayerToTeam(e, teams[i].name)} placeholder="Select players" isMulti={true} options={availablePlayers} label={`${teams[i].name} players`} />)
+            teamInputs.push(<SelectInput id={teams[i].name} onChange={(e: any) => addPlayerToTeam(e, teams[i].name)} placeholder="Select players" isMulti={true} options={availablePlayers} label={`${teams[i].name} players`} />)
         }
         return <div>{teamInputs.map(i => i)}</div>
     }
@@ -82,14 +80,10 @@ const NewGame = () => {
         </div>
     )
 
-    const removeTeam = () => {
-
-    }
-
     return (
         <AuthContainer>
             <Heading>new game</Heading> 
-            <SelectInput options={results} isMulti={true} placeholder="Search players..." label="add players" onChange={addPlayer} />
+            <SelectInput options={options} isMulti={true} placeholder="Search players..." label="add players" onChange={addPlayer} />
             {renderTeams()}
             <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', marginBottom: '10px'}}>
                 <Button>randomize teams</Button>
