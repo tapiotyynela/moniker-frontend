@@ -11,8 +11,10 @@ import { Team } from "../../types/team"
 import Text from '../../common/Text'
 import { FormatSelectOptions } from '../../utils/NewGameForm/SelectDataFormatter'
 import { CheckAvailablePlayers } from "../../utils/NewGameForm/CheckAvailablePlayers"
+import { useNavigate } from "react-router-dom"
 
 const NewGame = () => {
+    const navigate = useNavigate()
     const [options, setOptions] = useState<Option[]>([])
     const [modalOpen, setModalOpen] = useState<boolean>(false)
     const [teamName, setTeamName] = useState<string>('')
@@ -70,7 +72,7 @@ const NewGame = () => {
 
     const modalContent = (
         <div>
-            <Text size="l" text="new team" />
+            <Text size="l" text="new team" font='Modak, cursive'/>
             <InputWithLabel label="team name" style={{width: '70vw'}} onChange={(e: any) => setTeamName(e.target.value)}/>
             <div style={{width: '70vw', display: 'flex', alignSelf: 'center'}}>
                 <Button style={{margin: 'auto'}} onClick={() => addTeam()}>
@@ -92,7 +94,7 @@ const NewGame = () => {
             <CustomModal isOpen={modalOpen} onClose={() => setModalOpen(!modalOpen)} contentLabel="TERVE" children={modalContent}/>
             <InputWithLabel label="length of round (s)"/>
             <InputWithLabel label="points to win the game" />
-            <Button>start game</Button>
+            <Button onClick={() => navigate('/game')}>start game</Button>
         </AuthContainer>
     )
 }

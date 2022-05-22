@@ -1,33 +1,24 @@
 import styled from 'styled-components'
 import { TextProps } from '../types/components'
 
-const P = styled.p`
-    color: white;
-    margin: 0px;
-    padding: 5px;
-    font-family: 'Modak', cursive;
-`
+const Paragraph = styled.p((props: { size: string, font: 'Modak, cursive' | 'Marvel, sans-serif'}) => ({
+    color: 'white',
+    margin: 0,
+    padding: '5px',
+    fontFamily: props.font,
+    fontSize: props.size,
+}))
 
-const ParagraphSmall = styled(P)`
-    font-size: 10px
-`
-
-const ParagraphMedium = styled(P)`
-    font-size: 20px
-`
-
-const ParagraphLarge = styled(P)`
-    font-size: 30px
-`
-
-const Text = ({ text, size }: TextProps) => {
+const Text = ({ text, size, font }: TextProps) => {
     switch(size) {
         case 's':
-            return <ParagraphSmall>{text}</ParagraphSmall>
+            return <Paragraph size="10px" font={font}>{text}</Paragraph>
         case 'm':
-            return <ParagraphMedium>{text}</ParagraphMedium>
+            return <Paragraph size="20px" font={font}>{text}</Paragraph>
         case 'l':
-            return <ParagraphLarge>{text}</ParagraphLarge>
+            return <Paragraph size="30px" font={font}>{text}</Paragraph>
+        case 'xl':
+            return <Paragraph size="60px" font={font}>{text}</Paragraph>
     }
 }
 

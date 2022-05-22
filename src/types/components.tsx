@@ -22,5 +22,6 @@ export type ModalProps = {
 
 export type TextProps = {
     text: string
-    size: 's' | 'm' | 'l'
+    size: 's' | 'm' | 'l' | 'xl'
+    font: 'Modak, cursive' | 'Marvel, sans-serif'
 }
