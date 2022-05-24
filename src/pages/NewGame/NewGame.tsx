@@ -7,24 +7,60 @@ import { InputWithLabel } from "../../common/Input"
 import CustomModal from "../../common/Modal"
 import SelectInput from "../../common/Select"
 import { Option } from "../../types/components"
-import { Team } from "../../types/team"
 import Text from '../../common/Text'
 import { FormatSelectOptions } from '../../utils/NewGameForm/SelectDataFormatter'
 import { CheckAvailablePlayers } from "../../utils/NewGameForm/CheckAvailablePlayers"
 import { useNavigate } from "react-router-dom"
+import { createNewGame } from "../../api/game"
+import { NewTeam } from "../../types/game"
+import { toast } from "react-toastify"
 
 const NewGame = () => {
     const navigate = useNavigate()
     const [options, setOptions] = useState<Option[]>([])
     const [modalOpen, setModalOpen] = useState<boolean>(false)
     const [teamName, setTeamName] = useState<string>('')
-    const [teams, setTeams] = useState<Team[]>([])
+    const [roundLength, setLengthOfRounds] = useState<number>(0)
+    const [pointsToWin, setPointsToWin] = useState<number>(0)
+    const [teams, setTeams] = useState<NewTeam[]>([])
     const [availablePlayers, setAvailablePlayers] = useState<Option[]>([])
     const [allPlayers, setAllPlayers] = useState<Option[]>([])
 
     useEffect(() => {
         getUsers()
     }, [])
+
+    const createGame = async () => {
+        const allTeamPlayers = teams.flatMap(team => team.players.flatMap(p => p))
+        if(teams.length < 2 || allTeamPlayers.length < 2) {
+            toast.error("Must have at least 2 teams", {
+                position: toast.POSITION.TOP_LEFT
+              });
+        } else if (roundLength < 1 || pointsToWin < 1) {
+            toast.error("Check round length and points to win", {
+                position: toast.POSITION.TOP_LEFT
+              });
+        } else {
+            const normalizedTeams = teams.map(team => {
+                const players = team.players.map((p) => parseInt(p.value))
+                return {
+                    ...team,
+                    players
+                }
+            })
+            const data = {
+                teams: normalizedTeams,
+                roundLength,
+                pointsToWin
+            }
+            const game = await createNewGame(data)
+            navigate('/game', {
+                state: {
+                    game
+                }
+            })
+        }
+    }
 
     const getUsers = async () => {
         const results = await getUsersBySearchWord({
@@ -62,9 +98,6 @@ const NewGame = () => {
         tiims.push({
             name: teamName,
             players: [],
-            game: 0,
-            score: 0,
-            bestPlayer: ''
         })
         setTeams(tiims)
         setModalOpen(false)
@@ -92,9 +125,9 @@ const NewGame = () => {
                 <Button onClick={() => setModalOpen(true)}>add team</Button>
             </div>
             <CustomModal isOpen={modalOpen} onClose={() => setModalOpen(!modalOpen)} contentLabel="TERVE" children={modalContent}/>
-            <InputWithLabel label="length of round (s)"/>
-            <InputWithLabel label="points to win the game" />
-            <Button onClick={() => navigate('/game')}>start game</Button>
+            <InputWithLabel type="number" label="length of round (s)" value={roundLength} onChange={(e: any) => setLengthOfRounds(e.target.value)}/>
+            <InputWithLabel type="number" label="points to win the game" value={pointsToWin} onChange={(e: any) => setPointsToWin(e.target.value)}/>
+            <Button onClick={() => createGame()}>start game</Button>
         </AuthContainer>
     )
 }

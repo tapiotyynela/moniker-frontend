@@ -11,6 +11,9 @@ import AddWords from './pages/AddWords/AddWords';
 import NewGame from './pages/NewGame/NewGame';
 import Game from './pages/Game/Game';
 import Round from "./pages/Round/Round";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const App = () => {
   const RequireAuth = ({ children }: any) => {
@@ -20,6 +23,7 @@ const App = () => {
   }
   return (
       <div className="App">
+          <ToastContainer/>
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/home" element={<Home />} />

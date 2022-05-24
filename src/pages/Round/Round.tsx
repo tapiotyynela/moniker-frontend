@@ -3,12 +3,12 @@ import { useEffect, useState } from 'react';
 import Text from '../../common/Text'
 
 const Round: React.FC = () => {
-    const [timer, setTimer] = useState<number>(0)
+    const [timer, setTimer] = useState<number>(60)
 
     useEffect(() => {
-        if (timer < 60) {
+        if (timer < 61 && timer > -1) {
             const interval = setInterval(() => {
-                setTimer(timer + 1)
+                setTimer(timer - 1)
             }, 1000)
             return () => clearInterval(interval)
         }

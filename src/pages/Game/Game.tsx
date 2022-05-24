@@ -1,5 +1,5 @@
-import { useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useEffect, useState } from "react"
+import { useLocation, useNavigate } from "react-router-dom"
 import { AuthContainer } from "../../common/AuthContainer"
 import { Button } from "../../common/Button"
 import Text from '../../common/Text'
@@ -7,14 +7,20 @@ import TeamScore from "./components/TeamScore"
 
 const Game: React.FC = () => {
     const navigate = useNavigate()
-    const [teams, setTeams] = useState<number[]>([1,2,3])
+    const location = useLocation()
+    const state = location.state as any
+    const [game, setGame] = useState(state.game)
+
+    useEffect(() => {
+        // setGame(state.game)
+    },[])
 
     return (
         <AuthContainer style={{paddingTop: 100}}>
-                <Text text="Starting team: Team 1" size='l' font='Marvel, sans-serif'/>
+                <Text text={`Starting team:`} size='l' font='Marvel, sans-serif'/>
                 <div style={{marginTop: 100}}>
                     {
-                        teams.map(t => <TeamScore/>)
+                        game.teams.map((t: any) => <TeamScore/>)
                     }
                 </div>
                 <div style={{marginTop: 40}}>
