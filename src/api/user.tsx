@@ -1,12 +1,18 @@
-import axios from 'axios'
+import { get, post } from '.'
 import { LoginData, Search } from '../types/user'
 
 export const login = async (data: LoginData) => {
-    const res = await axios.post('http://localhost:3000/api/users/login', data)
+    const res = await post('/users/login', data)
+    localStorage.setItem('token', res.data.token)
     return res
 }
 
 export const getUsersBySearchWord = async (data: Search) => {
-    const res = await axios.post('http://localhost:3000/api/users/search', data)
+    const res = await post('/users/search', data)
+    return res
+}
+
+export const verifyUserToken = async () => {
+    const res = await get('/users/verify')
     return res
 }

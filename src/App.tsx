@@ -17,28 +17,27 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   const RequireAuth = ({ children }: any) => {
-    const { authed } = useAuth();
-  
-    return authed === true ? children : <Navigate to="/login" replace />;
+    const auth = useAuth()
+    return auth?.user ? children : <Navigate to="/login" replace />;
   }
+  
   return (
       <div className="App">
           <ToastContainer/>
           <Routes>
             <Route path="/login" element={<Login />} />
-            <Route path="/home" element={<Home />} />
-            <Route path="/stats" element={<Stats />} />
-            <Route path="/gameHistory" element={<GameHistory />} />
-            <Route path="/friends" element={<Friends />} />
-            <Route path="/addWords" element={<AddWords />} />
-            <Route path="/newGame" element={<NewGame />} />
-            <Route path="/game" element={<Game />} />
-            <Route path="/round" element={<Round />} />
-            <Route path="/register" element={
-              <RequireAuth>
-                <Register />
-              </RequireAuth>
-            } />
+            <Route path="/register" element={<Register />} />
+            <Route path="/home" element={
+             <RequireAuth>
+               <Home />
+            </RequireAuth>} />
+              <Route path="/stats" element={<Stats />} />
+              <Route path="/gameHistory" element={<GameHistory />} />
+              <Route path="/friends" element={<Friends />} />
+              <Route path="/addWords" element={<AddWords />} />
+              <Route path="/newGame" element={<NewGame />} />
+              <Route path="/game" element={<Game />} />
+              <Route path="/round" element={<Round />} />
           </Routes>
       </div>
   );

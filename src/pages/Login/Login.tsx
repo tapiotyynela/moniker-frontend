@@ -5,9 +5,11 @@ import {Button} from '../../common/Button'
 import { Heading } from '../../common/Heading'
 import { InputWithLabel } from '../../common/Input'
 import {UnAuthContainer} from '../../common/UnauthenticatedContainer'
+import { useAuth } from '../../hooks/useAuth';
 
 const Login = () => {
     const navigate = useNavigate()
+    const auth = useAuth()
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
 
@@ -20,8 +22,9 @@ const Login = () => {
     }
 
     const handleSubmit = async () => {
-        const res: any = await login({email: email, password: password})
-        if (res.data === "KIJAUTUMINEN ONNISTUI") {
+        const res: any = await auth?.logIn({email: email, password: password})
+        if (res.status === 200) {
+            console.log("NAVIAGATE")
             navigate('/home')
         } else {
             // TODO: show some notification

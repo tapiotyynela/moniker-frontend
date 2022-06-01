@@ -127,7 +127,7 @@ const NewGame = () => {
             <CustomModal isOpen={modalOpen} onClose={() => setModalOpen(!modalOpen)} contentLabel="TERVE" children={modalContent}/>
             <InputWithLabel type="number" label="length of round (s)" value={roundLength} onChange={(e: any) => setLengthOfRounds(e.target.value)}/>
             <InputWithLabel type="number" label="points to win the game" value={pointsToWin} onChange={(e: any) => setPointsToWin(e.target.value)}/>
-            <Button onClick={() => createGame()}>start game</Button>
+            <Button onClick={() => createGame()}>create game</Button>
         </AuthContainer>
     )
 }

@@ -1,7 +1,12 @@
-import axios from "axios"
+import { post, get } from "."
 import { INewGame } from "../types/game"
 
 export const createNewGame = async (data: INewGame) => {
-    const res = await axios.post('http://localhost:3000/api/game/newGame', data)
+    const res = await post('/game/newGame', data)
+    return res.data
+}
+
+export const getAllPleyersGames = async (userId: number) => {
+    const res = await get(`/game/list/${userId}`)
     return res.data
 }
