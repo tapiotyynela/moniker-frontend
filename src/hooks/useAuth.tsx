@@ -9,19 +9,23 @@ interface AuthContextInterface {
   logIn: (data: LoginData) => Promise<AxiosResponse>
 }
 
-const AuthContext = createContext<AuthContextInterface | null>(null)
+export const AuthContext = createContext<AuthContextInterface | null>(null)
 
 export const AuthProvider = ({ children }: any) =>  {
   const [user, setUser] = useState<User | null>(null)
 
-  // const verifyToken = async () => {
-  //   const res = await verifyUserToken()
-  //   if (res.status === 200) {
-  //     // setUser(res)
-  //   } else {
-  //     // setUser(false)
-  //   }
-  // }
+  React.useEffect(() => {
+    verifyToken()
+  }, [])
+
+  const verifyToken = async () => {
+    const res = await verifyUserToken()
+    if (res.status === 200) {
+      setUser(res.data)
+    } else {
+      setUser(null)
+    }
+  }
 
   const logIn = async (data: LoginData) => {
     const res = await login(data)

@@ -31,13 +31,17 @@ const App = () => {
              <RequireAuth>
                <Home />
             </RequireAuth>} />
-              <Route path="/stats" element={<Stats />} />
-              <Route path="/gameHistory" element={<GameHistory />} />
-              <Route path="/friends" element={<Friends />} />
-              <Route path="/addWords" element={<AddWords />} />
-              <Route path="/newGame" element={<NewGame />} />
-              <Route path="/game" element={<Game />} />
-              <Route path="/round" element={<Round />} />
+              <Route path="/stats" element={<RequireAuth>
+                <Stats /></RequireAuth>} />
+              <Route path="/gameHistory" element={<RequireAuth>
+                <GameHistory /> </RequireAuth>} />
+              <Route path="/friends" element={<RequireAuth>
+                <Friends /></RequireAuth>} />
+              <Route path="/addWords" element={<RequireAuth>
+                <AddWords /></RequireAuth>} />
+              <Route path="/newGame" element={<RequireAuth><NewGame /></RequireAuth>} />
+              <Route path="/game" element={<RequireAuth><Game /></RequireAuth>} />
+              <Route path="/round" element={<RequireAuth><Round /></RequireAuth>} />
           </Routes>
       </div>
   );

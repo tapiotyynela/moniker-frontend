@@ -7,25 +7,11 @@ import TeamScore from "./components/TeamScore"
 
 const Game: React.FC = () => {
     const navigate = useNavigate()
-    const location = useLocation()
-    const state = location.state as any
-    const [game, setGame] = useState(state.game)
-
-    useEffect(() => {
-        // setGame(state.game)
-    },[])
+    // const [game, setGame] = useState(state.game)
 
     return (
         <AuthContainer style={{paddingTop: 100}}>
                 <Text text={`Starting team:`} size='l' font='Marvel, sans-serif'/>
-                <div style={{marginTop: 100}}>
-                    {
-                        game.teams.map((t: any) => <TeamScore/>)
-                    }
-                </div>
-                <div style={{marginTop: 40}}>
-                    <Button onClick={() => navigate('/round')}>start round</Button>
-                </div>
         </AuthContainer>
     )
 }

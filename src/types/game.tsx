@@ -20,3 +20,20 @@ export interface INewGame {
     pointsToWin: number
     roundLength: number
 }
+
+export type Game = {
+    gameId: number
+    pointsToWin: number
+    roundLength: number
+    active: boolean
+    Teams: Team[]
+    winner?: string
+}
+
+export type Team = {
+    activeTurn: false
+    game: number
+    name: string
+    score: string
+    teamdId: number
+}
