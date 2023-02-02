@@ -6,7 +6,11 @@ export const createNewGame = async (data: INewGame) => {
     return res.data
 }
 
-export const getAllPleyersGames = async (userId: number) => {
-    const res = await get(`/game/list/${userId}`)
-    return res.data
+export const getAllPleyersGames = async (userId: number | undefined) => {
+    if (userId) {
+        const res = await get(`/game/list/${userId}`)
+        return res.data
+    } else {
+        console.log("NO USERID")
+    }
 }

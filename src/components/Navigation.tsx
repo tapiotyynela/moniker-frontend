@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router"
 import styled from "styled-components"
+import { useAuth } from "../hooks/useAuth"
 const Navigation = () => {
     const NavContainer = styled.div`
         display: flex;
@@ -16,12 +17,14 @@ const Navigation = () => {
         font-family: 'Modak', cursive;
     `
     const navigate = useNavigate()
+    const { logout } = useAuth()
     return (
         <NavContainer>
             <NavText onClick={() => navigate('/stats')}>stats</NavText>
             <NavText onClick={() => navigate('/gameHistory')}>game history</NavText>
             <NavText onClick={() => navigate('/friends')}>friends</NavText>
             <NavText onClick={() => navigate('/addWords')}>add words</NavText>
+            <NavText onClick={() => logout()}>logout</NavText>
         </NavContainer>
     )
 }

@@ -1,15 +1,14 @@
 import React, { useState } from 'react'
 import { useNavigate } from "react-router-dom";
-import { login } from '../../api/user';
 import {Button} from '../../common/Button'
 import { Heading } from '../../common/Heading'
 import { InputWithLabel } from '../../common/Input'
 import {UnAuthContainer} from '../../common/UnauthenticatedContainer'
-import { useAuth } from '../../hooks/useAuth';
+import {useAuth} from '../../hooks/useAuth';
 
 const Login = () => {
     const navigate = useNavigate()
-    const auth = useAuth()
+    const { logIn } = useAuth()
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
 
@@ -21,10 +20,15 @@ const Login = () => {
         setPassword(password)
     }
 
+    // useEffect(() => {
+    //     if(user?.user !== null) {
+    //         navigate('/home')
+    //     }
+    // })
+
     const handleSubmit = async () => {
-        const res: any = await auth?.logIn({email: email, password: password})
+        const res: any = logIn({email: email, password: password})
         if (res.status === 200) {
-            console.log("NAVIAGATE")
             navigate('/home')
         } else {
             // TODO: show some notification

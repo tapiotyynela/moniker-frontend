@@ -1,45 +1,52 @@
-import { AxiosResponse } from "axios";
-import * as React from "react";
-import { useContext, createContext, useMemo, useState } from "react";
-import { login, verifyUserToken } from "../api/user";
-import { LoginData, User } from "../types/user";
+import { createContext, useContext, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { login as userLogin } from "../api/user";
+import { User } from "../types/user";
 
-interface AuthContextInterface {
-  user: User | null
-  logIn: (data: LoginData) => Promise<AxiosResponse>
-}
+type AuthContextType = {
+  user: User | null;
+  logIn: (data: any) => void;
+  logout: () => void;
+};
 
-export const AuthContext = createContext<AuthContextInterface | null>(null)
+const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
-export const AuthProvider = ({ children }: any) =>  {
-  const [user, setUser] = useState<User | null>(null)
+export const AuthProvider = ({ children }: any) => {
+  const userFromStorage = localStorage.getItem("user");
+  const [user, setUser] = useState<User | null>(
+    userFromStorage ? JSON.parse(userFromStorage) : null
+  );
+  const navigate = useNavigate();
 
-  React.useEffect(() => {
-    verifyToken()
-  }, [])
-
-  const verifyToken = async () => {
-    const res = await verifyUserToken()
+  // call this function when you want to authenticate the user
+  const logIn = async (data: any) => {
+    const res = await userLogin(data);
     if (res.status === 200) {
-      setUser(res.data)
-    } else {
-      setUser(null)
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+      setUser(res.data.user);
+      navigate("/home");
     }
-  }
+  };
 
-  const logIn = async (data: LoginData) => {
-    const res = await login(data)
-    if (res) {
-      setUser(res.data.user)
-    }
-    return res
-  }
+  // call this function to sign out logged in user
+  const logout = () => {
+    setUser(null);
+    localStorage.clear();
+    navigate("/login", { replace: true });
+  };
 
-  return (
-    <AuthContext.Provider value={{user, logIn}}>
-      {children}
-    </AuthContext.Provider>
-  )
-}
+  const value = useMemo(
+    () => ({
+      user,
+      logIn,
+      logout,
+    }),
+    [user]
+  );
 
-export const useAuth = () => useContext(AuthContext);
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+};
+
+export const useAuth = () => {
+  return useContext(AuthContext);
+};
