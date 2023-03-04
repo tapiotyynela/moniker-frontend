@@ -1,13 +1,9 @@
-import { AuthContainer } from "../../common/AuthContainer"
-import { Heading } from "../../common/Heading"
-
 const Stats = () => {
+  return (
+    <div>
+      <p>stats</p>
+    </div>
+  );
+};
 
-    return (
-        <AuthContainer>
-            <Heading>stats</Heading>
-        </AuthContainer>
-    )
-}
-
-export default Stats
+export default Stats;
