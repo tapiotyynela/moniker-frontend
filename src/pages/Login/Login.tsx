@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Button } from "../../common/Button";
+import { FormContainer } from "../../common/FormContainer";
+import { Input } from "../../common/Input";
+import { Title } from "../../common/Title";
 import { useAuth } from "../../hooks/useAuth";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { logIn } = useAuth();
+  const { logIn, user } = useAuth();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
@@ -16,11 +20,11 @@ const Login = () => {
     setPassword(password);
   };
 
-  // useEffect(() => {
-  //     if(user?.user !== null) {
-  //         navigate('/home')
-  //     }
-  // })
+  useEffect(() => {
+    if (user) {
+      navigate("/home");
+    }
+  });
 
   const handleSubmit = async () => {
     const res: any = logIn({ email: email, password: password });
@@ -32,16 +36,20 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <p>Moniker</p>
-      <input onChange={(e: any) => handleEmailChange(e.target.value)} />
-      <input
+    <FormContainer>
+      <Title>Moniker</Title>
+      <Input
+        onChange={(e: any) => handleEmailChange(e.target.value)}
+        placeholder="Email"
+      />
+      <Input
         onChange={(e: any) => handlePasswordChange(e.target.value)}
         type="password"
+        placeholder="Password"
       />
-      <button onClick={() => handleSubmit()}>login</button>
-      <button onClick={() => navigate("/register")}>register</button>
-    </div>
+      <Button onClick={() => handleSubmit()}>login</Button>
+      <Button onClick={() => navigate("/register")}>register</Button>
+    </FormContainer>
   );
 };
 
