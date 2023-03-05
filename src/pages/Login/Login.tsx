@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../common/Button";
-import { FormContainer } from "../../common/FormContainer";
+import { Container } from "../../common/FormContainer";
 import { Input } from "../../common/Input";
 import { Title } from "../../common/Title";
 import { useAuth } from "../../hooks/useAuth";
@@ -36,8 +36,8 @@ const Login = () => {
   };
 
   return (
-    <FormContainer>
-      <Title>Moniker</Title>
+    <Container>
+      <Title color="#E2BABA">Moniker</Title>
       <Input
         onChange={(e: any) => handleEmailChange(e.target.value)}
         placeholder="Email"
@@ -49,7 +49,7 @@ const Login = () => {
       />
       <Button onClick={() => handleSubmit()}>login</Button>
       <Button onClick={() => navigate("/register")}>register</Button>
-    </FormContainer>
+    </Container>
   );
 };
 
