@@ -5,9 +5,9 @@ export const Input = styled.input`
   padding: 10px;
   border-radius: 8px;
   font-size: 15px;
-  width: 270px;
+  width: ${(props) => props.width || "270px"};
   height: 25px;
   outline: none;
-  border: 0px solid;
+  border: 1px solid #a0a0a0;
   margin: 5px;
 `;

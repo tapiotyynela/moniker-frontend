@@ -14,9 +14,11 @@ const Navigation = () => {
   const navigate = useNavigate();
   return (
     <NavContainer>
-      <NavText onClick={() => navigate("/stats")}>stats</NavText>
-      <NavText onClick={() => navigate("/gameHistory")}>game history</NavText>
-      <NavText onClick={() => navigate("/addWords")}>add words</NavText>
+      <NavText onClick={() => navigate("/newGame")}>New game</NavText>
+
+      <NavText onClick={() => navigate("/stats")}>Stats</NavText>
+      <NavText onClick={() => navigate("/gameHistory")}>Past games</NavText>
+      <NavText onClick={() => navigate("/addWords")}>Add words</NavText>
     </NavContainer>
   );
 };

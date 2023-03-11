@@ -8,6 +8,10 @@ export const Button = styled.button`
   font-family: "Advent Pro", sans-serif;
   font-size: 20px;
   color: #c29191;
-  border: 2px solid #c29191;
+  border: 1px solid #c29191;
   margin: 5px;
+
+  &:active {
+    background-color: #fff0f0;
+  }
 `;
