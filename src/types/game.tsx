@@ -1,39 +1,39 @@
-import {Option} from './components'
+import { Option } from "./components";
 
 export type NewTeam = {
-    name: string
-    players: Option[]
-}
+  name: string;
+  players: Option[];
+};
 
 export type NewGame = {
-    teams: NewTeam[]
-    pointsToWin: number
-    roundLength: number
-}
+  teams: NewTeam[];
+  pointsToWin: number;
+  roundLength: number;
+};
 
 export interface INewTeam {
-    name: string
-    players: number[]
+  name: string;
+  players: number[];
 }
 export interface INewGame {
-    teams: INewTeam[]
-    pointsToWin: number
-    roundLength: number
+  teams: INewTeam[];
+  pointsToWin: number;
+  roundLength: number;
 }
 
 export type Game = {
-    gameId: number
-    pointsToWin: number
-    roundLength: number
-    active: boolean
-    Teams: Team[]
-    winner?: string
-}
+  gameId: number;
+  gameIdentifier: string;
+  pointsToWin: number;
+  roundLength: number;
+  active: boolean;
+  winner?: string;
+};
 
 export type Team = {
-    activeTurn: false
-    game: number
-    name: string
-    score: string
-    teamdId: number
-}
+  activeTurn: false;
+  game: number;
+  name: string;
+  score: string;
+  teamdId: number;
+};

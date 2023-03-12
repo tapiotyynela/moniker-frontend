@@ -47,8 +47,12 @@ const Login = () => {
         type="password"
         placeholder="Password"
       />
-      <Button onClick={() => handleSubmit()}>login</Button>
-      <Button onClick={() => navigate("/register")}>register</Button>
+      <Button variant="normal" onClick={() => handleSubmit()}>
+        login
+      </Button>
+      <Button variant="normal" onClick={() => navigate("/register")}>
+        register
+      </Button>
     </Container>
   );
 };

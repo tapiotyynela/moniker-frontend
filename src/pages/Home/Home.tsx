@@ -1,16 +1,18 @@
 import { useState } from "react";
 import { getGameByIdentifier } from "../../api/game";
 import { Button, Container, Input, Loading, Text, Title } from "../../common";
+import { GameCard } from "../../components/GameCard";
 import { Header } from "../../components/Header";
 import Navigation from "../../components/Navigation";
 import { useAuth } from "../../hooks/useAuth";
+import { Game } from "../../types/game";
 
 const Home = () => {
   const { user } = useAuth();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>("");
   const [message, setMessage] = useState<string>("");
-  const [game, setGame] = useState(null);
+  const [game, setGame] = useState<Game>();
 
   const pressButton = async () => {
     setIsLoading(true);
@@ -27,7 +29,11 @@ const Home = () => {
 
   return (
     <Container>
-      <Header nickname={user?.nickName || ""} />
+      <Header
+        leftText={user?.nickName || ""}
+        rightText={"Logout"}
+        isHome={true}
+      />
       <Title color="#E2BABA">Moniker</Title>
       <Input
         onChange={(e) => setInputValue(e.target.value)}
@@ -35,14 +41,12 @@ const Home = () => {
         placeholder="Search by game ID"
         width={200}
       />
-      <Button color="#E2BABA" onClick={pressButton}>
+      <Button variant="normal" color="#E2BABA" onClick={pressButton}>
         Search
       </Button>
       {isLoading && <Loading />}
       {game ? (
-        <Text color="#E2BABA" size={30}>
-          {message}
-        </Text>
+        <GameCard {...game} />
       ) : (
         <Text color="#E2BABA" size={30}>
           {message}

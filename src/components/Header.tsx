@@ -2,10 +2,18 @@ import { Text } from "../common/Text";
 import { useAuth } from "../hooks/useAuth";
 
 type HeaderProps = {
-  nickname: string;
+  leftText?: string;
+  rightText?: string;
+  isHome?: boolean;
+  onClickLeftText?: () => void;
 };
 
-export const Header = ({ nickname }: HeaderProps) => {
+export const Header = ({
+  leftText,
+  rightText,
+  isHome,
+  onClickLeftText,
+}: HeaderProps) => {
   const { logout } = useAuth();
 
   return (
@@ -19,12 +27,20 @@ export const Header = ({ nickname }: HeaderProps) => {
         width: "90%",
       }}
     >
-      <Text size={20} color="#E2BABA">
-        Welcome, {nickname}!
-      </Text>
-      <Text size={20} color="#E2BABA" onClick={logout}>
-        Logout
-      </Text>
+      {isHome ? (
+        <Text size={20} color="#E2BABA">
+          Welcome, {leftText}!
+        </Text>
+      ) : (
+        <Text size={20} color="#E2BABA" onClick={onClickLeftText}>
+          {leftText}
+        </Text>
+      )}
+      {isHome && (
+        <Text size={20} color="#E2BABA" onClick={logout}>
+          {rightText}
+        </Text>
+      )}
     </div>
   );
 };
